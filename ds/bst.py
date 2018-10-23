@@ -37,4 +37,24 @@ class BST:
         self._print_inorder_r(c_root.left)
         print(c_root.data)
         self._print_inorder_r(c_root.right)
+
+    def print_preorder_r(self):
+        self._print_preorder_r(self.root)
+
+    def _print_preorder_r(self, c_root):
+        if c_root == None:
+            return
+        print(c_root.data)
+        self._print_preorder_r(c_root.left)
+        self._print_preorder_r(c_root.right)
+
+    def print_postorder_r(self):
+        self._print_postorder_r(self.root)
+
+    def _print_postorder_r(self, c_root):
+        if c_root == None:
+            return
+        self._print_postorder_r(c_root.left)
+        self._print_postrder_r(c_root.right)
+        print(c_root.data)
             

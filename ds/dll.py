@@ -19,7 +19,7 @@ class DLL:
             # empty list
             self.first = temp
             self.last = temp
-    
+
     def insert_start(self, data):
         temp = DLLNode(data)
         if self.first:
@@ -30,6 +30,33 @@ class DLL:
             # empty list
             self.first = temp
             self.last = temp
+        return self.first
+
+    def move_to_front(self, node):
+        if self.first:
+            nnext = node.next
+            nprev = node.prev
+
+            first = self.first
+
+            self.first = node
+            node.next = first
+            node.prev = None
+            first.prev = node
+
+            nprev.next = nnext
+            nnext.prev = nprev
+        # self.first = node
+        return self.first
+
+
+    def delete_last(self):
+        if self.last.prev:
+            temp = self.last
+            self.last = last.prev
+            temp = None
+        else:
+            self.last = None
 
     def print_list(self):
         curr = self.first

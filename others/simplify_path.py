@@ -19,39 +19,22 @@ In this case, you should ignore redundant slashes and return "/home/foo".
 """
 
 class Solution:
-    def simplifyPath(path):
+    def simplifyPath(self, path):
         """
         :type path: str
         :rtype: str
         """
         from collections import deque
-        if path == None or path.strip() == "":
-            return path
-        deduped = path[0]
-        t = path[1:]
-        for i, c in enumerate(t):
-            if t[i] == "/" and deduped[len(deduped)-1] == "/":
-                continue
-            else:
-                deduped += t[i]
-
-        if len(deduped) == 1:
-            return deduped
         stack = deque()
 
-        dirs = deduped.split("/")
+        dirs = path.split("/")
 
         for d in dirs:
-            if d == "" or d == "." or d == "/":
-                continue
             if d == "..":
-                if stack:
-                    stack.pop()
-                else:
-                    continue
-            else:
+                _ = stack.pop() if stack else None
+            else if d != ".":
                 stack.append(d)
         simplifiedPath = "/"
         while stack:
             simplifiedPath += stack.popleft() + "/"
-        return simplifiedPath[: len(simplifiedPath) - 1]
+        return simplifiedPath

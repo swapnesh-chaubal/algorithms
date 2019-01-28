@@ -1,0 +1,14 @@
+Write path:
+When a row is added or modified in C*
+1. It is first added to the commit log. This is an append only log so its really fast. The disk head doesn't have to move back and forth.
+2. It is then added to a memtable, which is a table in memory.
+3. When the memtable is full, it is flushed on to disk which is in an SSTable. An SSTable is also an append only table. The buffer size is configurable.
+
+In case of a modify, the functionality doesn't change. It still does everything append only. However, there is compaction.
+Compaction:
+1. In case of compaction, C* does a merge sort of the values in case a primary key has more than 1 value and takes the latest value. It also removes deletes. and then deletes the old SSTables. It writes a new file with the merge sorted data.
+Replication:
+1. Hash the primary key using MD5, consistent hashing. Thus, when a record is added, it goes to the node in the token ring which matches the hash.
+2. The replication number is the number of total nodes on which the record is present, thus if it's 3, the data is present on the current node plus 2 others.
+3. Each node knows where domabstemio
+

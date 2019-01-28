@@ -1,0 +1,8 @@
+Paper on Dapper, Google's distributed tracing software.
+1. Google search is divided into thousands of machines, each doing its only thing like seraching ads, etc. Thus thousands of machines can be used to process 1 universal search query.
+2. Hard to know which service is bottleneck
+3. Ubiquitous deployment and continuous monitoring are important for Dapper
+4. Tracing system should have a low overhead
+5. Dapper is used along with other tools that look at the individual components
+6. Samping is necessary for low overhead. For webrequests, even one out of 1000 was good enough.
+

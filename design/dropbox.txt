@@ -1,0 +1,6 @@
+Put network PoPs (points of presence in major cities)
+
+Talk:
+Read to Write ratio is a consideration (e.g. Twitter has more reads than writes since there are few people tweeting as compared to reading tweets). Dropbox is write heavy.
+ACIDity requirements (Atomicity, Consistency, Isolation, Durability)
+

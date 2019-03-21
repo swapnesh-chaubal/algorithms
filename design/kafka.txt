@@ -1,0 +1,20 @@
+Lets say we have replicatin factor of 3, there will be 2 brokers (machines) on which the data is replicated. 
+THe producer has to write to the leader, if it sends to a follower, the message will be rejected.
+THe leader first writes it to its own commit log and the followers do the same.
+Kafka uses strong consistency, so the message is only considered written when its been written by both followers.
+Leader can choose the type of awk (0 - no awk, 1 - leader commit, 2 - all commit)
+Leaders are spread evenly across brokers. Assign leaders of different partitions to different brokers, as evenly as possible. That's how load is balanced
+ISR = In Sync Replica is guranteed to have all the previous replicated messages
+in sync replica = replica.lag.time.max.ms
+If a broker goes down, it is removed from the replica set and producing continues
+WHen it goes back on, it needs to find out who the leader is and then start catching up. However, ISR will still have 2 replicas since the latest broker is catching up.
+If the leader fails, the new leader is chosen from the ISR.
+When broker 3 catches up, it is part of the ISR again
+Unclean leader election:
+* if all the brokers in ISR go down, kafka will choose a broker that is not in ISR, even though it leads to data loss. THis is for HA. However, this can be disabled
+
+min.insync.replicas = min replicas on which message is stored. If enough brokers don't exist, the message will be rejected
+Who does leader election?
+* one of the brokers is a controller which has some embedded logic. It keeps track of the brokers to see if they're alive and does the communication about their failures, leader elections, etc.
+* If the controller fails, there is logic for auto controller selection.
+

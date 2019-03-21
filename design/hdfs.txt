@@ -1,0 +1,42 @@
+https://www.youtube.com/watch?v=ECxlFPy7s-k
+
+Master Slave architecture
+master is called name node, all others are data nodes
+Name node: stores the names of files
+Data Nodes: stores the data of the files
+
+Creating a file in hdfs:
+1. 3 actors: Hadoop client, Name node and data nodes
+2. Client sends request to name node. Name node will check if the file exists, etc. It stores all that information about namespaces in memory, its called fsimage
+3. Client will create a FSDataOutputStream and strart writing data
+4. This stream buffers data (to size of data block)
+5. After buffer is full, it asks for a block on hdfs
+6. name node allocates block on data node and send the data node info back
+
+Datanodes send heatbeats to the namenode to say that they're alive. Heartbeat also has block info
+Typical block size of hdfs is 128MB
+
+Replication
+
+You can make hadoop rack aware
+Name node initiates replication
+
+HA
+Refers to uptime of the system
+Backup name node information, if NN failes, we can use this info to start a new NN.
+There should always be a standy NN
+NN maitains an editLog. Anychange it makes goes to the editlog
+If we have editLog, we can reconstruct the in memory fsImage
+QJM: Quorum Journal Manager, usually has 3 journal nodes
+Configure NN to write the editLog to QJM
+The standby NN keeps reading from QJM and keeps itself updated
+DNs send heartbeat to both NN nodes
+
+How to know when NN fails.
+Zookeeper has a lock which is acquired by the active NN. The stand-by is always trying to get the lock. If the active NN fails, the secondary gets the lock
+
+Secondary NN is different from standby name node.
+Secondary name node saves the fsImage on disk and deletes the editLog before that.
+
+We don't need secondary NN in HA config of hadoop because the standby name nodes does things that the secondary NN would do.
+

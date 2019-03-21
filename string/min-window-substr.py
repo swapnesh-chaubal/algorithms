@@ -30,37 +30,29 @@ class Solution:
         :rtype: str
         """
         ht = collections.Counter(t)
-        i = j = 0
-        matchedCount = 0
-        minWin = len(st) + 1
+        start = end = 0
+        matchNeeded = len(t)
+        minWindow = -1
+        minWindowStart = 0
+        while end < len(st):
+            if ht.get(st[end], 0) > 0:
+                ht[st[end]] -= 1
+                matchNeeded -= 1
+            while matchNeeded == 0:
+                currWindow = end - start + 1
+                if minWindow == -1 or currWindow < minWindow:
+                    minWindow = currWindow
+                    minWindowStart = start
+                
+                if ht[st[start]] >= 0:
+                    ht[start] += 1
+                    matchNeeded +=1
+                start += 1
+            end += 1
 
-        while(True):
-            # move the right pointer of the window
-
-            while matchedCount < len(t) and j < len(st):
-                if st[j] in ht and ht[st[j]] > 0:
-                    matchedCount += 1
-                    ht[st[j]] -= 1
-                j += 1
-            # import pdb; pdb.set_trace()
-            if matchedCount == len(t):
-                matchedCount = 0
-                ht = collections.Counter(t)
-                while i < j and matchedCount < len(t):
-                    if st[i] in ht and ht[st[i]] > 0:
-                        i += 1
-                        ht[st[i]] -= 1
-                    else:
-                        break
-                if (j - i) < minWin:
-                    minWin = j - i
-                print(st[i:j])
-                ht = collections.Counter(t)
-                i = j
-                matchedCount = 0
-            else:
-                break
+        print(end)
+        return st[minWindowStart:minWindow]
 
 if __name__ == "__main__":
     s = Solution()
-    s.minWindow("ADOBECODEBANC", "ABC")
+    print(s.minWindow("ADOBECODEBANC", "ABC"))

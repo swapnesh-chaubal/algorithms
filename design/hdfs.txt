@@ -13,7 +13,7 @@ Creating a file in hdfs:
 5. After buffer is full, it asks for a block on hdfs
 6. name node allocates block on data node and send the data node info back
 
-Datanodes send heatbeat to namenode to say that its alive. Heartbeat also has block info
+Datanodes send heatbeats to the namenode to say that they're alive. Heartbeat also has block info
 Typical block size of hdfs is 128MB
 
 Replication
